@@ -1,25 +1,40 @@
-import "./SnippetList.css";
+import React from 'react';
 
-function SnippetList({ snippets }) {
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-  };
-
+const SnippetList = ({ snippets, onEdit, onDelete, onCopy }) => {
   return (
     <div className="snippet-list">
-      {snippets.length === 0 && <p>Aucun snippet trouvé.</p>}
-      {snippets.map((s) => (
-        <div key={s.id} className="snippet-card">
-          <div className="snippet-info">
-            <h3>{s.title}</h3>
-            <pre>{s.content}</pre>
-            {s.category && <span className="category">{s.category}</span>}
+      {snippets.map((snippet) => (
+        <div
+          key={snippet.id}
+          className="snippet-item"
+          onClick={() => onEdit(snippet)}
+        >
+          <h3>{snippet.title}</h3>
+          <p>
+            {snippet.category} | {snippet.type}
+          </p>
+          <div className="snippet-actions">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onCopy(snippet.content);
+              }}
+            >
+              Copy
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(snippet.id);
+              }}
+            >
+              Delete
+            </button>
           </div>
-          <button onClick={() => copyToClipboard(s.content)}>Copier</button>
         </div>
       ))}
     </div>
   );
-}
+};
 
 export default SnippetList;

@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": "1759344235418",
+    "title": "Test Snippet",
+    "category": "Test",
+    "type": "Code",
+    "content": "console.log(\"Hello, World!\");"
+  }
+]

@@ -1,16 +1,14 @@
-import "./SearchBar.css";
+import React from 'react';
 
-function SearchBar({ query, setQuery }) {
+const SearchBar = ({ query, setQuery }) => {
   return (
-    <div className="search-bar">
-      <input
-        type="text"
-        placeholder="Rechercher un snippet..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-    </div>
+    <input
+      type="text"
+      placeholder="Search..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
   );
-}
+};
 
 export default SearchBar;
