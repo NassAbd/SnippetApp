@@ -1,0 +1,51 @@
+.snippet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.snippet-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.snippet-info {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.snippet-card pre {
+  background: #f0f0f0;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+.snippet-card button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.snippet-card button:hover {
+  background: #0056b3;
+}
+
+.category {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  background: #eee;
+  border-radius: 5px;
+  color: #555;
+}
