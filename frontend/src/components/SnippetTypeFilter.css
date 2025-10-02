@@ -1,0 +1,25 @@
+.filter-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-container label {
+  font-size: 12px;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.type-filter-select {
+  background-color: var(--container-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  min-width: 150px;
+}
+
+.type-filter-select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}

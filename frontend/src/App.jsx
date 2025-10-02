@@ -6,6 +6,7 @@ import SnippetList from './components/SnippetList';
 import SearchBar from './components/SearchBar';
 import CategoryFilter from './components/CategoryFilter';
 import SnippetTypeFilter from './components/SnippetTypeFilter';
+import LanguageFilter from './components/LanguageFilter';
 import CreateSnippetForm from './components/CreateSnippetForm';
 import SnippetOverlay from './components/SnippetOverlay';
 import ConfirmDialog from './components/ConfirmDialog';
@@ -18,6 +19,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedType, setSelectedType] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState('');
   const [isCreateFormVisible, setCreateFormVisible] = useState(false);
   const [editingSnippet, setEditingSnippet] = useState(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
@@ -29,6 +31,12 @@ function App() {
   useEffect(() => {
     fetchSnippets();
   }, []);
+
+  useEffect(() => {
+    if (selectedCategory !== 'Code') {
+      setSelectedLanguage('');
+    }
+  }, [selectedCategory]);
 
   const fetchSnippets = async () => {
     try {
@@ -129,11 +137,20 @@ function App() {
       result = result.filter(s => s.type === selectedType);
     }
 
+    if (selectedCategory === 'Code' && selectedLanguage) {
+      result = result.filter(s => s.language === selectedLanguage);
+    }
+
     return result;
-  }, [snippets, searchQuery, selectedCategory, selectedType, fuse]);
+  }, [snippets, searchQuery, selectedCategory, selectedType, selectedLanguage, fuse]);
 
   const categories = useMemo(() => [...new Set(snippets.map(s => s.category))], [snippets]);
   const types = useMemo(() => [...new Set(snippets.map(s => s.type))], [snippets]);
+  const languages = useMemo(() => {
+    if (selectedCategory !== 'Code') return [];
+    const codeSnippets = snippets.filter(s => s.category === 'Code' && s.language);
+    return [...new Set(codeSnippets.map(s => s.language))];
+  }, [snippets, selectedCategory]);
 
   return (
     <div className="app">
@@ -146,6 +163,9 @@ function App() {
             <SearchBar query={searchQuery} setQuery={setSearchQuery} />
             <CategoryFilter categories={categories} selected={selectedCategory} setSelected={setSelectedCategory} />
             <SnippetTypeFilter types={types} selected={selectedType} setSelected={setSelectedType} />
+            {selectedCategory === 'Code' && (
+              <LanguageFilter languages={languages} selected={selectedLanguage} setSelected={setSelectedLanguage} />
+            )}
         </div>
         <button className="create-btn" onClick={() => setCreateFormVisible(true)}>Create Snippet</button>
       </div>
