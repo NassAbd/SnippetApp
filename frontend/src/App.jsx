@@ -8,6 +8,8 @@ import CategoryFilter from './components/CategoryFilter';
 import SnippetTypeFilter from './components/SnippetTypeFilter';
 import CreateSnippetForm from './components/CreateSnippetForm';
 import SnippetOverlay from './components/SnippetOverlay';
+import ConfirmDialog from './components/ConfirmDialog';
+import Toast from './components/Toast';
 
 const API_URL = 'http://localhost:4000/api';
 
@@ -18,6 +20,11 @@ function App() {
   const [selectedType, setSelectedType] = useState('');
   const [isCreateFormVisible, setCreateFormVisible] = useState(false);
   const [editingSnippet, setEditingSnippet] = useState(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+
+  // toast state
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     fetchSnippets();
@@ -43,8 +50,10 @@ function App() {
       const newSnippet = await response.json();
       setSnippets([...snippets, newSnippet]);
       setCreateFormVisible(false);
+      showToast("Snippet created ✅");
     } catch (error) {
       console.error('Failed to create snippet:', error);
+      showToast("Error creating snippet ❌");
     }
   };
 
@@ -58,26 +67,46 @@ function App() {
       const updatedSnippet = await response.json();
       setSnippets(snippets.map(s => s.id === snippet.id ? updatedSnippet : s));
       setEditingSnippet(null);
+      showToast("Snippet updated ✅");
     } catch (error) {
       console.error('Failed to update snippet:', error);
+      showToast("Error updating snippet ❌");
     }
   };
 
-  const handleDelete = async (id) => {
+  // Ouvre le dialog de confirmation
+  const requestDelete = (id) => {
+    setConfirmDeleteId(id);
+  };
+
+  // Confirme et exécute la suppression
+  const confirmDelete = async () => {
     try {
-      await fetch(`${API_URL}/snippets/${id}`, { method: 'DELETE' });
-      setSnippets(snippets.filter(s => s.id !== id));
-      if (editingSnippet && editingSnippet.id === id) {
+      await fetch(`${API_URL}/snippets/${confirmDeleteId}`, { method: 'DELETE' });
+      setSnippets(snippets.filter(s => s.id !== confirmDeleteId));
+      if (editingSnippet && editingSnippet.id === confirmDeleteId) {
         setEditingSnippet(null);
       }
+      showToast("Snippet deleted ✅");
+      setConfirmDeleteId(null);
     } catch (error) {
       console.error('Failed to delete snippet:', error);
+      showToast("Error deleting snippet ❌");
     }
   };
 
   const handleCopy = (content) => {
     navigator.clipboard.writeText(content);
-    // Maybe show a small notification later
+    showToast("Snippet copied ✅");
+  };
+
+  // fonction utilitaire pour afficher un toast
+  const showToast = (message) => {
+    setToastMessage(message);
+    setToastVisible(true);
+    setTimeout(() => {
+      setToastVisible(false);
+    }, 2000);
   };
 
   const fuse = useMemo(() => new Fuse(snippets, {
@@ -124,7 +153,7 @@ function App() {
       <SnippetList
         snippets={filteredSnippets}
         onEdit={setEditingSnippet}
-        onDelete={handleDelete}
+        onDelete={requestDelete}
         onCopy={handleCopy}
       />
 
@@ -140,8 +169,20 @@ function App() {
           snippet={editingSnippet}
           onCancel={() => setEditingSnippet(null)}
           onSave={handleUpdate}
-          onDelete={handleDelete}
+          onDelete={() => requestDelete(editingSnippet.id)}
         />
+      )}
+
+      {confirmDeleteId && (
+        <ConfirmDialog
+          message="Are you sure you want to delete this snippet?"
+          onConfirm={confirmDelete}
+          onCancel={() => setConfirmDeleteId(null)}
+        />
+      )}
+
+      {toastVisible && (
+        <Toast message={toastMessage} visible={toastVisible} />
       )}
     </div>
   );

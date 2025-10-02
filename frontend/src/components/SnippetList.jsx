@@ -1,6 +1,15 @@
 import React from 'react';
+import './SnippetList.css';
 
 const SnippetList = ({ snippets, onEdit, onDelete, onCopy }) => {
+  if (snippets.length === 0) {
+    return (
+      <div className="snippet-list empty">
+        <p>No snippets found.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="snippet-list">
       {snippets.map((snippet) => (

@@ -1,0 +1,52 @@
+.confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .confirm-dialog {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 380px; /* augmenté */
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  
+  .confirm-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .btn-cancel {
+    background: #ccc;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .btn-cancel:hover {
+    background: #bbb;
+  }
+  
+  .btn-delete {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .btn-delete:hover {
+    background: #c0392b;
+  }
+  
