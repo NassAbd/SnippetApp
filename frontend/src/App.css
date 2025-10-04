@@ -1,8 +1,13 @@
 .app {
-  background-color: #ffffff;
+  max-height: 90vh;     /* la hauteur maximale = hauteur de l’écran */
+  overflow-y: auto;      /* scroll si contenu dépasse */
+  padding: 20px;
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -69,7 +74,8 @@ select {
 }
 
 .snippet-item:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px); /* effet de "soulèvement" */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2); /* ombre plus grande et plus intense */
 }
 
 .snippet-item h3 {
@@ -173,12 +179,24 @@ select {
   color: white;
 }
 
+.form-actions .btn-primary:hover {
+  background-color: #0056b3;
+}
+
 .form-actions .btn-secondary {
   background-color: #6c757d;
   color: white;
 }
 
+.form-actions .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
 .form-actions .btn-danger {
   background-color: #dc3545;
   color: white;
+}
+
+.form-actions .btn-danger:hover {
+  background-color: #c82333;
 }

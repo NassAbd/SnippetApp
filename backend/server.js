@@ -8,7 +8,12 @@ const app = express();
 const port = 4000;
 const snippetsFilePath = path.join(__dirname, 'snippets.json');
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5175', // frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(bodyParser.json());
 
 // Helper function to read snippets from the JSON file

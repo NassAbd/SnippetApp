@@ -50,7 +50,7 @@ function App() {
       const newSnippet = await response.json();
       setSnippets([...snippets, newSnippet]);
       setCreateFormVisible(false);
-      showToast("Snippet created ✅");
+      showToast("Snippet created 📝");
     } catch (error) {
       console.error('Failed to create snippet:', error);
       showToast("Error creating snippet ❌");
@@ -67,7 +67,7 @@ function App() {
       const updatedSnippet = await response.json();
       setSnippets(snippets.map(s => s.id === snippet.id ? updatedSnippet : s));
       setEditingSnippet(null);
-      showToast("Snippet updated ✅");
+      showToast("Snippet updated 📝");
     } catch (error) {
       console.error('Failed to update snippet:', error);
       showToast("Error updating snippet ❌");
@@ -87,7 +87,7 @@ function App() {
       if (editingSnippet && editingSnippet.id === confirmDeleteId) {
         setEditingSnippet(null);
       }
-      showToast("Snippet deleted ✅");
+      showToast("Snippet deleted 🗑️");
       setConfirmDeleteId(null);
     } catch (error) {
       console.error('Failed to delete snippet:', error);
@@ -138,7 +138,8 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>Snippet Manager</h1>
+        <h1>Dockets</h1>
+        <p>Dock your code and prompts snippets</p>
       </header>
 
       <div className="controls">
@@ -174,6 +175,7 @@ function App() {
       )}
 
       {confirmDeleteId && (
+        
         <ConfirmDialog
           message="Are you sure you want to delete this snippet?"
           onConfirm={confirmDelete}

@@ -1,20 +1,20 @@
-# Use an official Node.js runtime as a parent image
-FROM node:18-alpine
+# Use a recent Node.js version (Vite requires Node >=20.19)
+FROM node:20-alpine
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Install dependencies separately for better caching
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application source code
+# Copy application files
 COPY . .
 
-# Expose the port Vite runs on
+# Expose Vite dev server port
 EXPOSE 5173
 
-# Run the Vite development server
+# Start Vite in dev mode, bind to 0.0.0.0 for container access
 CMD ["npm", "run", "dev", "--", "--host"]

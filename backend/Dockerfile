@@ -1,20 +1,18 @@
-# Use an official Node.js runtime as a parent image
-FROM node:18-alpine
+# Use a recent Node.js version
+FROM node:20-alpine
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
+# Install dependencies
 COPY package*.json ./
-
-# Install any needed packages
 RUN npm install
 
-# Bundle app source
+# Copy app source
 COPY . .
 
-# Make port 4000 available to the world outside this container
+# Expose API port
 EXPOSE 4000
 
-# Define the command to run the app
-CMD [ "node", "server.js" ]
+# Start backend
+CMD ["node", "server.js"]
