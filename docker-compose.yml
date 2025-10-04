@@ -7,13 +7,23 @@ services:
       - "4000:4000"
     volumes:
       - ./backend/snippets.json:/usr/src/app/snippets.json
+    networks:
+      - app-network
 
   frontend:
     build: ./frontend
     ports:
-      - "3000:80"
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://backend:4000/api
     depends_on:
       - backend
+    networks:
+      - app-network
+
 networks:
-  default:
+  app-network:
     driver: bridge

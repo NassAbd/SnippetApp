@@ -11,7 +11,7 @@ import SnippetOverlay from './components/SnippetOverlay';
 import ConfirmDialog from './components/ConfirmDialog';
 import Toast from './components/Toast';
 
-const API_URL = 'http://localhost:4000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
 function App() {
   const [snippets, setSnippets] = useState([]);
